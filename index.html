@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Video Mask Timer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: black;
+      overflow: hidden;
+    }
+
+    /* Background video */
+    #bgVideo {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    /* SVG overlay */
+    svg {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+    }
+
+    text {
+      font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
+      letter-spacing: 6px;
+      text-anchor: middle;
+      dominant-baseline: middle;
+      font-size: 220px; /* desktop default */
+    }
+
+    /* 📱 PHONE OPTIMIZATION */
+    @media (max-width: 768px) {
+      text {
+        font-size: 70px;
+        letter-spacing: 3px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background video -->
+  <video id="bgVideo" autoplay muted loop playsinline>
+    <source src="st - Made with Clipchamp.mp4" type="video/mp4">
+  </video>
+
+  <!-- SVG mask layer -->
+  <svg viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <mask id="textMask">
+        <rect width="100%" height="100%" fill="black"/>
+        <text id="timerText" x="500" y="300" fill="white">
+          00:00:00
+        </text>
+      </mask>
+    </defs>
+
+    <!-- Video inside text -->
+    <foreignObject width="100%" height="100%" mask="url(#textMask)">
+      <video autoplay muted loop playsinline>
+        <source src="st2 - Made with Clipchamp.mp4" type="video/mp4">
+      </video>
+    </foreignObject>
+  </svg>
+
+  <script>
+    const timerText = document.getElementById("timerText");
+
+    const target = new Date(
+      new Date().getFullYear(),
+      11, // December
+      26,
+      6,
+      30,
+      0
+    );
+
+    function tick() {
+      const now = new Date();
+      const diff = target - now;
+
+      if (diff <= 0) return;
+
+      const h = Math.floor(diff / (1000 * 60 * 60));
+      const m = Math.floor((diff / (1000 * 60)) % 60);
+      const s = Math.floor((diff / 1000) % 60);
+
+      timerText.textContent =
+        `${String(h).padStart(2, "0")}:` +
+        `${String(m).padStart(2, "0")}:` +
+        `${String(s).padStart(2, "0")}`;
+    }
+
+    tick();
+    setInterval(tick, 1000);
+  </script>
+
+</body>
+</html>
