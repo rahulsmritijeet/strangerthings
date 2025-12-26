@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>strangerThings</title>
+  <title>StrangerThings</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -41,10 +41,10 @@
       letter-spacing: 6px;
       text-anchor: middle;
       dominant-baseline: middle;
-      font-size: 220px; /* desktop default */
+      font-size: 220px;
     }
 
-    /* 📱 PHONE OPTIMIZATION */
+    /* 📱 Phone optimization */
     @media (max-width: 768px) {
       text {
         font-size: 70px;
@@ -53,12 +53,20 @@
     }
 
     h1 {
-      color: rbga(255,255,255,0.7);
+      position: fixed;
+      top: 20px;
+      width: 100%;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.7);
+      z-index: 2;
+      font-family: Arial, sans-serif;
     }
   </style>
 </head>
 <body>
+
   <h1>Timer to Stranger Things Season 5 Volume 2</h1>
+
   <!-- Background video -->
   <video id="bgVideo" autoplay muted loop playsinline>
     <source src="st - Made with Clipchamp.mp4" type="video/mp4">
@@ -86,21 +94,17 @@
   <script>
     const timerText = document.getElementById("timerText");
 
-    const target = new Date(
-      2026, // year
-      0,    // January (0-based index)
-      1,    // day
-      1,    // 1 AM
-      30,   // 30 minutes
-      0     // seconds
-    );
-
+    // 🎯 Target: 1:30 AM, 1 Jan 2026 (local time)
+    const target = new Date(2026, 0, 1, 1, 30, 0);
 
     function tick() {
       const now = new Date();
       const diff = target - now;
 
-      if (diff <= 0) return;
+      if (diff <= 0) {
+        timerText.textContent = "END OF AN ERA";
+        return;
+      }
 
       const h = Math.floor(diff / (1000 * 60 * 60));
       const m = Math.floor((diff / (1000 * 60)) % 60);
