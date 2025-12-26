@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>StrangerThings</title>
+  <title>strangerThings</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -41,31 +41,32 @@
       letter-spacing: 6px;
       text-anchor: middle;
       dominant-baseline: middle;
+      fill: white;
+    }
+
+    #timerText {
       font-size: 220px;
+    }
+
+    #labelText {
+      font-size: 60px;
+      letter-spacing: 4px;
     }
 
     /* 📱 Phone optimization */
     @media (max-width: 768px) {
-      text {
+      #timerText {
         font-size: 70px;
-        letter-spacing: 3px;
       }
-    }
 
-    h1 {
-      position: fixed;
-      top: 20px;
-      width: 100%;
-      text-align: center;
-      color: rgba(255, 255, 255, 0.7);
-      z-index: 2;
-      font-family: Arial, sans-serif;
+      #labelText {
+        font-size: 22px;
+        letter-spacing: 2px;
+      }
     }
   </style>
 </head>
 <body>
-
-  <h1>Timer to Stranger Things Season 5 Volume 2</h1>
 
   <!-- Background video -->
   <video id="bgVideo" autoplay muted loop playsinline>
@@ -77,8 +78,15 @@
     <defs>
       <mask id="textMask">
         <rect width="100%" height="100%" fill="black"/>
-        <text id="timerText" x="500" y="300" fill="white">
-          00:00:00
+
+        <!-- TIMER -->
+        <text id="timerText" x="500" y="270">
+          000:00:00:00
+        </text>
+
+        <!-- LABEL -->
+        <text id="labelText" x="500" y="360">
+          STRANGER THINGS S5 • VOLUME 2
         </text>
       </mask>
     </defs>
@@ -93,27 +101,35 @@
 
   <script>
     const timerText = document.getElementById("timerText");
+    const labelText = document.getElementById("labelText");
 
-    // 🎯 Target: 1:30 AM, 1 Jan 2026 (local time)
+    // 🎯 Target: 1 Jan 2026, 1:30 AM (local time)
     const target = new Date(2026, 0, 1, 1, 30, 0);
 
     function tick() {
       const now = new Date();
-      const diff = target - now;
+      let diff = target - now;
 
       if (diff <= 0) {
-        timerText.textContent = "END OF AN ERA";
+        timerText.textContent = "END:OF:AN:ERA";
+        labelText.textContent = "";
         return;
       }
 
-      const h = Math.floor(diff / (1000 * 60 * 60));
-      const m = Math.floor((diff / (1000 * 60)) % 60);
-      const s = Math.floor((diff / 1000) % 60);
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      diff %= (1000 * 60 * 60 * 24);
+
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      diff %= (1000 * 60 * 60);
+
+      const minutes = Math.floor(diff / (1000 * 60));
+      const seconds = Math.floor((diff / 1000) % 60);
 
       timerText.textContent =
-        `${String(h).padStart(2, "0")}:` +
-        `${String(m).padStart(2, "0")}:` +
-        `${String(s).padStart(2, "0")}`;
+        `${String(days).padStart(3, "0")}:` +
+        `${String(hours).padStart(2, "0")}:` +
+        `${String(minutes).padStart(2, "0")}:` +
+        `${String(seconds).padStart(2, "0")}`;
     }
 
     tick();
