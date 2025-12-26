@@ -58,6 +58,13 @@
       letter-spacing: 4px;
     }
 
+    ul {
+        list-style-type: none;
+        width: 80vw;
+        display: flex;
+        justify-content: space-between;
+    }
+
     /* 📱 Phone optimization */
     @media (max-width: 768px) {
       #timerText {
@@ -90,7 +97,12 @@
         </text>
 
         <text id="labell" x="500" y="315">
-          DAYS:HOURS:MINUTES:SECONDS
+          <ul>
+            <li>DAYS</li>
+            <li>HOURS</li>
+            <li>MINUTES</li>
+            <li>SECONDS</li>
+          </ul>
         </text>
 
         <!-- LABEL -->
